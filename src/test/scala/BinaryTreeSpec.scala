@@ -6,7 +6,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
   test("an empty tree should be empty") {
     // When
-    val tree = new BinaryTree[Int](null)
+    val tree = new BinaryTree
 
     // Then
     assert(tree.isEmpty)
@@ -14,7 +14,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
   test("should find existing values") {
     // When
-    val tree = new BinaryTree[Int](null) add 1 add 2 add 3
+    val tree = new BinaryTree add 1 add 2 add 3
 
     // Then
     assert(!tree.isEmpty)
@@ -25,7 +25,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
   test("should not find missing values") {
     // When
-    val tree = new BinaryTree[Int](null) add 1 add 2
+    val tree = new BinaryTree add 1 add 2
 
     // Then
     assert(!tree.isEmpty)
@@ -36,7 +36,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
   test("should print values in order") {
     // When
-    val tree = new BinaryTree[Int](null) add 4 add 1 add 2 add 6
+    val tree = new BinaryTree add 4 add 1 add 2 add 6
 
     // Then
     assert(tree.toString() === "BST : 1 2 4 6")

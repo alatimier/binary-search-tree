@@ -1,6 +1,6 @@
 import scala.annotation.tailrec
 
-case class Node[T <: AnyVal](value: T, left: Node[T], right: Node[T])
+sealed case class Node[T <: AnyVal](value: T, left: Node[T], right: Node[T])
 
 object Node {
   def create[T <: AnyVal](value: T): Node[T] = {
@@ -8,7 +8,11 @@ object Node {
   }
 }
 
-class BinaryTree[T <: AnyVal](val rootNode: Node[T])(implicit val compare: (T, T) => Int) {
+class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compare: (T, T) => Int) {
+
+  def this()(implicit compare: (T, T) => Int) {
+    this(null)
+  }
 
   def isEmpty: Boolean = rootNode == null
 
