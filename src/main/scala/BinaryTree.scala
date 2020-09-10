@@ -3,7 +3,7 @@ import scala.annotation.tailrec
 sealed case class Node[T <: AnyVal](value: T, left: Node[T], right: Node[T])
 
 object Node {
-  def create[T <: AnyVal](value: T): Node[T] = {
+  def apply[T <: AnyVal](value: T): Node[T] = {
     Node(value, null, null)
   }
 }
@@ -23,16 +23,16 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
   }
 
   def add(value: T): BinaryTree[T] = {
-    if (isEmpty) new BinaryTree(Node.create(value)) else new BinaryTree(add(rootNode, value))
+    if (isEmpty) new BinaryTree(Node(value)) else new BinaryTree(add(rootNode, value))
   }
 
   private def add(node: Node[T], value: T): Node[T] = {
     compare(node.value, value) match {
       case 1 =>
-        val left = if (node.left == null) Node.create(value) else add(node.left, value)
+        val left = if (node.left == null) Node(value) else add(node.left, value)
         Node(node.value, left, node.right)
       case -1 =>
-        val right = if (node.right == null) Node.create(value) else add(node.right, value)
+        val right = if (node.right == null) Node(value) else add(node.right, value)
         Node(node.value, node.left, right)
       case 0 => node
     }
