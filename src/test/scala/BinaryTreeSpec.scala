@@ -12,7 +12,7 @@ class BinaryTreeSpec extends AnyFunSuite {
     assert(tree.isEmpty)
   }
 
-  test("should find existing values") {
+  test("should add and find existing values") {
     // When
     val tree = new BinaryTree add 1 add 2 add 3
 
@@ -23,7 +23,7 @@ class BinaryTreeSpec extends AnyFunSuite {
     assert(tree.contains(3))
   }
 
-  test("should not find missing values") {
+  test("should add and not find missing values") {
     // When
     val tree = new BinaryTree add 1 add 2
 
@@ -32,6 +32,39 @@ class BinaryTreeSpec extends AnyFunSuite {
     assert(tree.contains(1))
     assert(tree.contains(2))
     assert(!tree.contains(3))
+  }
+
+  test("should remove leaf value") {
+    // Given
+    var tree = new BinaryTree add 4 add 2 add 3 add 1
+
+    // When
+    tree = tree remove 1
+
+    // Then
+    assert(tree.toString() === "BST : 2 3 4")
+  }
+
+  test("should remove node with one leaf") {
+    // Given
+    var tree = new BinaryTree add 4 add 2 add 3 add 1
+
+    // When
+    tree = tree remove 4
+
+    // Then
+    assert(tree.toString() === "BST : 1 2 3")
+  }
+
+  test("should remove node with two leaves") {
+    // Given
+    var tree = new BinaryTree add 4 add 2 add 3 add 1
+
+    // When
+    tree = tree remove 2
+
+    // Then
+    assert(tree.toString() === "BST : 1 3 4")
   }
 
   test("should print values in order") {

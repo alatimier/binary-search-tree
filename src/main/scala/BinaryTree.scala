@@ -32,6 +32,34 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
     }
   }
 
+  def remove(value: T): BinaryTree[T] = {
+    if (rootNode == null) this else new BinaryTree(remove(rootNode, value))
+  }
+
+  private def remove(node: Node[T], value: T): Node[T] = {
+    if (node.value == value) {
+      if (node.left != null && node.right != null) {
+        val rightMin = getMin(node.right)
+        Node(rightMin.value, node.left, remove(node.right, rightMin.value))
+      } else if (node.left != null)
+        node.left
+      else if (node.right != null)
+        node.right
+      else
+        null
+    } else {
+      var tmpNode: Node[T] = node
+      if (node.left != null) tmpNode = Node(tmpNode.value, remove(tmpNode.left, value), tmpNode.right)
+      if (node.right != null) tmpNode = Node(tmpNode.value, tmpNode.left, remove(tmpNode.right, value))
+      tmpNode
+    }
+  }
+
+  @tailrec
+  private def getMin(node: Node[T]): Node[T] = {
+    if (node.left != null) getMin(node.left) else node
+  }
+
   def contains(value: T): Boolean = contains(rootNode, value)
 
   @tailrec
