@@ -10,6 +10,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
     // Then
     assert(tree.isEmpty)
+    assert(tree.size == 0)
   }
 
   test("should add and find existing values") {
@@ -18,6 +19,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
     // Then
     assert(!tree.isEmpty)
+    assert(tree.size == 3)
     assert(tree.contains(1))
     assert(tree.contains(2))
     assert(tree.contains(3))
@@ -29,6 +31,7 @@ class BinaryTreeSpec extends AnyFunSuite {
 
     // Then
     assert(!tree.isEmpty)
+    assert(tree.size == 2)
     assert(tree.contains(1))
     assert(tree.contains(2))
     assert(!tree.contains(3))

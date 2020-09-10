@@ -14,10 +14,16 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
     this(null)
   }
 
-  def isEmpty: Boolean = rootNode == null
+  def isEmpty: Boolean = size == 0
+
+  def size: Int = reduceLeft(0, (acc: Int, _) => acc + 1)
+
+  override def toString: String = {
+    reduceLeft("BST :", (acc: String, value) => s"$acc $value")
+  }
 
   def add(value: T): BinaryTree[T] = {
-    if (rootNode == null) new BinaryTree(Node.create(value)) else new BinaryTree(add(rootNode, value))
+    if (isEmpty) new BinaryTree(Node.create(value)) else new BinaryTree(add(rootNode, value))
   }
 
   private def add(node: Node[T], value: T): Node[T] = {
@@ -33,7 +39,7 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
   }
 
   def remove(value: T): BinaryTree[T] = {
-    if (rootNode == null) this else new BinaryTree(remove(rootNode, value))
+    if (isEmpty) this else new BinaryTree(remove(rootNode, value))
   }
 
   private def remove(node: Node[T], value: T): Node[T] = {
@@ -41,12 +47,10 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
       if (node.left != null && node.right != null) {
         val rightMin = getMin(node.right)
         Node(rightMin.value, node.left, remove(node.right, rightMin.value))
-      } else if (node.left != null)
-        node.left
-      else if (node.right != null)
-        node.right
-      else
-        null
+      }
+      else if (node.left != null) node.left
+      else if (node.right != null) node.right
+      else null
     } else {
       var tmpNode: Node[T] = node
       if (node.left != null) tmpNode = Node(tmpNode.value, remove(tmpNode.left, value), tmpNode.right)
@@ -71,15 +75,12 @@ class BinaryTree[T <: AnyVal] private(val rootNode: Node[T])(implicit val compar
     }
   }
 
-  override def toString: String = {
-    reduceLeft("BST :", (acc: String, value) => s"$acc $value")
-  }
-
   def reduceLeft[R](acc: R, f: (R, T) => R): R = {
     reduceLeft(rootNode, acc, f)
   }
 
   private def reduceLeft[R](node: Node[T], acc: R, f: (R, T) => R): R = {
+    if (node == null) return acc
     var res = acc
     if (node.left != null) res = reduceLeft(node.left, res, f)
     res = f(res, node.value)
