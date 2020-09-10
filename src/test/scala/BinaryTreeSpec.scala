@@ -34,4 +34,12 @@ class BinaryTreeSpec extends AnyFunSuite {
     assert(!tree.contains(3))
   }
 
+  test("should print values in order") {
+    // When
+    val tree = new BinaryTree[Int](null) add 4 add 1 add 2 add 6
+
+    // Then
+    assert(tree.toString() === "BST : 1 2 4 6")
+  }
+
 }

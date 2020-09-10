@@ -39,4 +39,20 @@ class BinaryTree[T <: AnyVal](val rootNode: Node[T])(implicit val compare: (T, T
     }
   }
 
+  override def toString: String = {
+    reduceLeft("BST :", (acc: String, value) => s"$acc $value")
+  }
+
+  def reduceLeft[R](acc: R, f: (R, T) => R): R = {
+    reduceLeft(rootNode, acc, f)
+  }
+
+  private def reduceLeft[R](node: Node[T], acc: R, f: (R, T) => R): R = {
+    var res = acc
+    if (node.left != null) res = reduceLeft(node.left, res, f)
+    res = f(res, node.value)
+    if (node.right != null) res = reduceLeft(node.right, res, f)
+    res
+  }
+
 }
